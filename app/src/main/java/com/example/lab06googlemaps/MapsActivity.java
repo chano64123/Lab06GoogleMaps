@@ -52,7 +52,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private LatLng italia = new LatLng(41.902609, 12.494847);
     private LatLng francia = new LatLng(48.843489, 2.355331);
     private LatLng posicionaActual;
-    private LatLng posicionFinal;
     private Location locationOrigen = new Location("Origen");
     private Location locationDestino = new Location("Destino");
     private double latitudActual = 0;
@@ -60,14 +59,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private double latitudFinal = 0;
     private double longitudFinal = 0;
     private String messageAlert = "";
-    private String titleAlert = "Distancia";
     private boolean isAlertDisplayed = false;
     private int seleccion = 0;
     //variables para guardar valores
     static final String ALERT_STATE = "state_of_Alert";
     static final String SELECTED_TYPE = "selected_type";
     static final String MESSAGE_ALERT = "message_alert";
-    static final String TITLE_ALERT = "title_alert";
     static final String LATITUD_FINAL = "latitud_final";
     static final String LONGITUD_FINAL = "longitud_final";
     static final String LATITUD_ACTUAL = "latitud_actual";
@@ -78,7 +75,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         savedInstanceState.putBoolean(ALERT_STATE,isAlertDisplayed);
         savedInstanceState.putInt(SELECTED_TYPE,seleccion);
         savedInstanceState.putString(MESSAGE_ALERT,messageAlert);
-        savedInstanceState.putString(TITLE_ALERT,titleAlert);
         savedInstanceState.putDouble(LATITUD_FINAL,latitudFinal);
         savedInstanceState.putDouble(LONGITUD_FINAL,longitudFinal);
         savedInstanceState.putDouble(LATITUD_ACTUAL,latitudActual);
@@ -103,7 +99,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             latitudFinal = savedInstanceState.getDouble(LATITUD_FINAL);
             longitudActual = savedInstanceState.getDouble(LONGITUD_ACTUAL);
             latitudActual = savedInstanceState.getDouble(LATITUD_ACTUAL);
-            titleAlert = savedInstanceState.getString(TITLE_ALERT);
         }
     }
 
@@ -199,7 +194,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             pintarRuta();
             if (isAlertDisplayed){
                 messageAlert = obtenerDistancia(locationOrigen, locationDestino);
-                showMessage(messageAlert,titleAlert);
+                showMessage(messageAlert);
             }
         }
         obtenerUbicacionActual();
@@ -232,11 +227,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private String obtenerNombreUbicacion(double latitud, double longitud) {
         Geocoder geocoder = new Geocoder(this, Locale.getDefault());
-        List<Address> addresses = null;
+        List<Address> addresses;
         try {
             addresses = geocoder.getFromLocation(latitud, longitud, 1);
-            String pais = addresses.get(0).getAddressLine(0);
-            return pais;
+            return addresses.get(0).getAddressLine(0);
         } catch (IOException e) {
             return e.getMessage();
         }
@@ -259,10 +253,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         Polyline line = mMap.addPolyline(new PolylineOptions().add(new LatLng(latitudActual, longitudActual), new LatLng(latitudFinal, longitudFinal)).width(15).color(Color.BLUE).geodesic(true));
     }
 
-    private void showMessage(String message, String title) {
+    private void showMessage(String message) {
         // cuztomizando al mensaje
         AlertDialog.Builder alert = new AlertDialog.Builder(this);
-        alert.setTitle(title);
+        alert.setTitle(R.string.distancia);
         alert.setMessage(message);
         alert.setCancelable(false);
 
@@ -293,23 +287,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     LocationListener locListener = new LocationListener() {
         @Override
-        public void onLocationChanged(Location location) {
-
-        }
+        public void onLocationChanged(Location location) { }
 
         @Override
-        public void onStatusChanged(String provider, int status, Bundle extras) {
-
-        }
+        public void onStatusChanged(String provider, int status, Bundle extras) { }
 
         @Override
-        public void onProviderEnabled(String provider) {
-
-        }
+        public void onProviderEnabled(String provider) { }
 
         @Override
-        public void onProviderDisabled(String provider) {
-
-        }
+        public void onProviderDisabled(String provider) { }
     };
 }
