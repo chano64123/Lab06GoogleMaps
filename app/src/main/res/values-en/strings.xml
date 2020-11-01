@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Lab06GoogleMaps</string>
+    <string name="title_activity_maps">Map</string>
+    <string name="ok">Ok</string>
+    <string name="kilometro">" Km."</string>
+    <string name="hay">"There are: "</string>
+    <string name="desde">"From: "</string>
+    <string name="hasta">"To: "</string>
+    <string name="actual">Current Location</string>
+    <string name="destino">Final Location</string>
+    <string name="falloCargaMapa">Failed to load map style</string>
+    <string name="noCargarEstilo">Style cannot be found. Error:</string>
+    <string-array name="tipos">
+        <item>Map Type - Icon - Country</item>
+        <item>Normal - World - Japan</item>
+        <item>Hybrid - Satellite - Germany</item>
+        <item>Satellite - Mountains - Italy</item>
+        <item>Terrain - Plans - France</item>
+    </string-array>
+</resources>
