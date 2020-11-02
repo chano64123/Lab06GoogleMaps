@@ -126,7 +126,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         //AGREGANDOP BOTONES DE ZOOM
         mMap.getUiSettings().setZoomControlsEnabled(true);
         enableMyLocation();
-        obtenerUbicacionActual();
+        //obtenerUbicacionActual();
 
         if (seleccion != 0){
             seleccionMapa(seleccion);
@@ -140,6 +140,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 seleccion=position;
                 isAlertDisplayed=true;
+                if (!enableMyLocation()){ return; }
                 seleccionMapa(position);
             }
 
@@ -211,11 +212,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
     }
 
-    private void enableMyLocation() {
+    private boolean enableMyLocation() {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             mMap.setMyLocationEnabled(true);
+            obtenerUbicacionActual();
+            return true;
         } else {
             ActivityCompat.requestPermissions(this, new String[] {Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_LOCATION_PERMISSION);
+            return false;
         }
     }
 
